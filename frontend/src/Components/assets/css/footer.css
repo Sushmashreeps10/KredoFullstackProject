@@ -1,0 +1,86 @@
+/* --- Footer --- */
+.footer {
+  background-color: #FCE7F3; /* pink-100 */
+  border-top: 1px solid #FBCFE8; /* pink-200 */
+  padding-top: 3rem;
+  margin-top: 3rem;
+  color: #831843; /* pink-900 */
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .footer-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #DB2777; /* pink-600 */
+  margin-bottom: 0.5rem;
+}
+
+.footer-tagline {
+  font-size: 0.875rem;
+  color: #9D174D; /* pink-800 */
+}
+
+.footer-heading {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #BE185D; /* pink-700 */
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-links a {
+  color: #9D174D; /* pink-800 */
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links a {
+  color: #9D174D; /* pink-800 */
+}
+
+.social-links a:hover {
+  color: #DB2777; /* pink-600 */
+}
+
+.footer-bottom {
+  border-top: 1px solid #FBCFE8; /* pink-200 */
+  padding: 1.5rem 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #BE185D; /* pink-700 */
+}
