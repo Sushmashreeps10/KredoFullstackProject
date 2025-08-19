@@ -1,1 +1,3 @@
 # KredoFullstackProject
+
+Kredo Analytics Internship Project is a full-stack web application developed using React.js, Spring Boot, and MySQL, featuring user authentication with JWT, role-based access control, and complete CRUD operations. The system includes a secure backend with RESTful APIs, an interactive analytics dashboard on the frontend, and efficient data handling through MySQL. It is tested using Postman and MySQL Workbench, ensuring reliability and smooth integration. This project highlights strong skills in full-stack development, API security, and building scalable web applications.
