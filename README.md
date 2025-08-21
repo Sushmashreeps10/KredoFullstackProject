@@ -44,7 +44,9 @@ AdminDashboard
 UserManagement(Admin)
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/73379120-31ee-4424-9ff7-655eba9e1cca" />
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c798e19a-2daa-4ace-bb5a-95887a031ff6" />
+Active users
 <img width="1915" height="1080" alt="image" src="https://github.com/user-attachments/assets/74060a15-bea2-4513-b910-4dac4c689772" />
+Inactive users
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/d6bf0fd9-5f31-47d0-94ca-f5108ef8c13f" />
 
 Product Management(Admin)
