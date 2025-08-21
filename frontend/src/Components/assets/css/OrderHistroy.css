@@ -1,0 +1,444 @@
+/* --- ELEGANT & ATTRACTIVE TABLE REVAMP --- */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+    /* Refined Color Palette */
+    --brand-primary: #6D28D9;
+    /* Deep Violet */
+    --brand-light: #EDE9FE;
+    /* Light Violet */
+    --background: #F9FAFB;
+    /* Off-white */
+    --surface: #FFFFFF;
+    /* Pure White */
+    --text-primary: #1F2937;
+    /* Dark Gray */
+    --text-secondary: #6B7280;
+    /* Medium Gray */
+    --border-color: #E5E7EB;
+
+    --status-delivered-bg: #D1FAE5;
+    --status-delivered-text: #065F46;
+    --status-shipped-bg: #DBEAFE;
+    --status-shipped-text: #1E40AF;
+    --status-processing-bg: #FEF3C7;
+    --status-processing-text: #92400E;
+    --status-canceled-bg: #FEE2E2;
+    --status-canceled-text: #991B1B;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* --- Base Page & Typography --- */
+/* FIX: Merged sticky footer styles directly into this rule */
+.management-page {
+    background-color: var(--background);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Lora', serif;
+    color: var(--text-primary);
+}
+
+/* --- Header & Footer --- */
+.management-header {
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 2rem;
+}
+
+.management-header-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    height: 4.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    font-family: 'Lora', serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--brand-primary);
+    text-decoration: none;
+}
+
+/* FIX: Merged all footer styles into one block for the sticky footer */
+.management-footer {
+    width: 100%;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    margin-top: auto;
+    /* This pushes it to the bottom */
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.management-footer p {
+    margin: 0;
+}
+
+/* FIX: Merged content styles for a huge, centered layout */
+.management-content {
+    max-width: 1600px;
+    /* This value is making it too wide */
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    flex-grow: 1;
+}
+
+/* --- Main View Header & Search --- */
+.view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.view-header h1 {
+    font-size: 2.25rem;
+    margin: 0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-right: none;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+    width: 300px;
+    transition: box-shadow 0.2s;
+}
+
+.search-container input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--brand-light);
+    z-index: 1;
+}
+
+.search-button {
+    background-color: var(--brand-primary);
+    color: white;
+    border: 1px solid var(--brand-primary);
+    padding: 0.75rem 1rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.search-button:hover {
+    background-color: #5B21B6;
+}
+
+/* --- Customer Table --- */
+.table-container {
+    background-color: var(--surface);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-md);
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.customer-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+}
+
+.customer-table th {
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* FIX: Merged taller row styles */
+.customer-table td {
+    padding: 1.5rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    background-color: var(--surface);
+    vertical-align: middle;
+}
+
+.customer-table tbody tr {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.customer-table tbody tr:hover {
+    transform: scale(1.01);
+    box-shadow: var(--shadow-md);
+    z-index: 2;
+    position: relative;
+}
+
+.customer-table td:first-child {
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.customer-table td:last-child {
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.customer-cell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* FIX: Merged larger avatar styles */
+.customer-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--brand-light);
+    color: var(--brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+/* FIX: Merged larger text styles */
+.customer-name {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.customer-email {
+    font-size: 0.95rem;
+}
+
+/* --- Order Detail View --- */
+.detail-view-header {
+    margin-bottom: 2rem;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.back-button:hover {
+    color: var(--brand-primary);
+}
+
+.order-list-container {
+    background-color: var(--surface);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+}
+
+.order-list-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.order-list-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* --- Order Row --- */
+.order-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    align-items: center;
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s;
+}
+
+.order-row:last-child {
+    border-bottom: none;
+}
+
+.order-row:hover {
+    background-color: var(--background);
+}
+
+.order-info .order-id {
+    font-weight: 600;
+    color: var(--text-primary);
+    display: block;
+}
+
+.order-info .order-date {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.order-total {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* --- Inline Status Editor --- */
+.status-editor {
+    position: relative;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    width: 120px;
+    transition: box-shadow 0.2s;
+}
+
+.status-badge:hover {
+    box-shadow: 0 0 0 3px var(--brand-light);
+}
+
+.chevron-icon {
+    transition: transform 0.2s ease-in-out;
+}
+
+.chevron-icon.open {
+    transform: rotate(180deg);
+}
+
+.status-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 160px;
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 10;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-item {
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.dropdown-item:hover {
+    background-color: var(--background);
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* Status Colors */
+.status-badge.status-delivered,
+.status-dot.status-delivered {
+    background-color: var(--status-delivered-bg);
+    color: var(--status-delivered-text);
+}
+
+.status-badge.status-shipped,
+.status-dot.status-shipped {
+    background-color: var(--status-shipped-bg);
+    color: var(--status-shipped-text);
+}
+
+.status-badge.status-processing,
+.status-dot.status-processing {
+    background-color: var(--status-processing-bg);
+    color: var(--status-processing-text);
+}
+
+.status-badge.status-canceled,
+.status-dot.status-canceled {
+    background-color: var(--status-canceled-bg);
+    color: var(--status-canceled-text);
+}
+
+.management-content {
+    max-width: 1280px;
+    /* A more compressed, standard width */
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    flex-grow: 1;
+}
+
+/* --- Order Row --- */
+.order-row {
+    display: grid;
+    /* FIX: Adjusted column widths for better spacing */
+    grid-template-columns: 1.5fr 2fr 1fr 1.2fr; 
+    gap: 1.5rem; /* ADDED: Adds space between each column */
+    align-items: center;
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s;
+}
+
+/* ADD THIS RULE for right-alignment of the status dropdown */
+.order-status {
+    justify-self: flex-end;
+}

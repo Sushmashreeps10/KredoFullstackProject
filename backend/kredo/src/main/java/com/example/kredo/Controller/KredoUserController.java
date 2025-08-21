@@ -16,16 +16,17 @@ import com.example.kredo.Service.KredoUsersManagementService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/auth")
 public class KredoUserController {
     @Autowired
     private KredoUsersManagementService usersManagementService;
 
-    @PostMapping("/auth/register")
+    @PostMapping("/register")
     public ResponseEntity<RequestResponse> registerUser(@RequestBody RequestResponse reg) {
         return ResponseEntity.ok(usersManagementService.registerUser(reg));
     }
 
-    @PostMapping("/auth/login")
+    @PostMapping("/login")
     public ResponseEntity<RequestResponse> login(@RequestBody RequestResponse req) {
         return ResponseEntity.ok(usersManagementService.login(req));
     }

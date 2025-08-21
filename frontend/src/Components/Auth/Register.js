@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; 
 import "../assets/css/auth.css";
 
-export default function Register() {
+
+function Register() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,12 +18,15 @@ export default function Register() {
         name,
         email,
         password,
-        role: "ADMIN", // backend requires role
+        role: "USER", // backend requires role
       });
+
+      console.log(response);
+      
 
       if (response.data.statusCode === 200) {
         alert("✅ Registration successful! Please login.");
-        navigate("/"); // redirect to login page
+        navigate("/login"); // redirect to login page
       } else {
         alert(`⚠️ ${response.data.message || "Registration failed"}`);
       }
@@ -89,7 +93,7 @@ export default function Register() {
           </form>
           <div className="auth-switch">
             Already have an account?
-            <Link to="/" className="switch-link">
+            <Link to="/login" className="switch-link">
               {" "}
               Login
             </Link>
@@ -99,3 +103,5 @@ export default function Register() {
     </div>
   );
 }
+
+export default Register;

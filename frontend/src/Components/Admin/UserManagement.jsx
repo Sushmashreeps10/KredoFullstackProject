@@ -1,188 +1,249 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Users, X, Edit, Trash2, Check, Truck, Package, XCircle } from 'lucide-react';
-import '../assets/css/userManagement.css';
+import { Users, X, Edit, Trash2, Search, UserCheck, UserX, BarChart2 } from 'lucide-react';
+import '../assets/css/userManagement.css'; // We will use the new CSS below
 
-// --- MOCK DATA ---
-const initialUsers = [
-  { id: 'usr_001', name: 'Sushma Shree', email: 'sushma@example.com', password: '●●●●●●●●●●●', orders: [
-    { id: 'ORD123', items: 'Aura Headphones, Quantum Watch', total: 27498, status: 'Delivered' },
-    { id: 'ORD456', items: 'Floral Sundress', total: 1499, status: 'Shipped' },
-  ]},
-  { id: 'usr_002', name: 'Alex Doe', email: 'alex@example.com', password: '●●●●●●●●●●●', orders: [
-    { id: 'ORD789', items: 'Pro Laptop', total: 125000, status: 'Pending' },
-  ]},
-  { id: 'usr_003', name: 'Jane Smith', email: 'jane@example.com', password: '●●●●●●●●●●●', orders: [
-    { id: 'ORD101', items: 'Scented Soy Candle', total: 899, status: 'Cancelled' },
-    { id: 'ORD112', items: 'Leather Crossbody Bag', total: 4500, status: 'Delivered' },
-  ]},
-];
-
-// --- User Details Modal Component ---
-const UserDetailsModal = ({ user, onClose, onUpdateStatus, onUpdateUser, onDeleteUser }) => {
-  if (!user) return null;
-
-  const statusOptions = ['Pending', 'Shipped', 'Delivered', 'Cancelled'];
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content user-details-modal" onClick={e => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2 className="modal-title">User Details</h2>
-          <button onClick={onClose} className="modal-close-btn"><X /></button>
+// --- User Card Component ---
+const UserCard = ({ user, onSelectUser }) => (
+    <div className="user-card" onClick={() => onSelectUser(user)}>
+        <img 
+            src={`https://ui-avatars.com/api/?name=${user.name.replace(/\s/g, '+')}&background=E9D5FF&color=6B21A8`} 
+            alt={user.name} 
+            className="user-avatar"
+        />
+        <div className="user-card-info">
+            <h3 className="user-card-name">{user.name}</h3>
+            <p className="user-card-email">{user.email}</p>
         </div>
-        
-        <div className="modal-body">
-          {/* Personal Info */}
-          <div className="details-section">
-            <h4>Personal Information</h4>
-            <div className="info-grid">
-              <p><strong>User ID:</strong> {user.id}</p>
-              <p><strong>Name:</strong> {user.name}</p>
-              <p><strong>Email:</strong> {user.email}</p>
-              <p><strong>Password:</strong> {user.password}</p>
-            </div>
-          </div>
-
-          {/* Order History */}
-          <div className="details-section">
-            <h4>Order History</h4>
-            <div className="order-list">
-              {user.orders.length > 0 ? user.orders.map(order => (
-                <div key={order.id} className="order-item">
-                  <div className="order-info">
-                    <p><strong>Order ID:</strong> {order.id}</p>
-                    <p><strong>Items:</strong> {order.items}</p>
-                    <p><strong>Total:</strong> ₹{order.total.toLocaleString('en-IN')}</p>
-                  </div>
-                  <div className="order-status-updater">
-                    <label>Status:</label>
-                    <div className="status-buttons">
-                      {statusOptions.map(status => (
-                        <button 
-                          key={status}
-                          className={`status-btn ${status.toLowerCase()} ${order.status === status ? 'active' : ''}`}
-                          onClick={() => onUpdateStatus(user.id, order.id, status)}
-                        >
-                          {status === 'Shipped' && <Truck size={16} />}
-                          {status === 'Delivered' && <Check size={16} />}
-                          {status === 'Pending' && <Package size={16} />}
-                          {status === 'Cancelled' && <XCircle size={16} />}
-                          <span>{status}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )) : <p>No orders found for this user.</p>}
-            </div>
-          </div>
-        </div>
-
-        <div className="modal-footer">
-          <button onClick={() => onDeleteUser(user.id)} className="btn btn-danger"><Trash2 /> Delete User</button>
-          <button onClick={() => onUpdateUser(user)} className="btn btn-primary"><Edit /> Update User</button>
-        </div>
-      </div>
+        <span className={`user-status-badge status-${user.status.toLowerCase()}`}>
+            {user.status}
+        </span>
     </div>
-  );
+);
+
+
+// --- User Details Modal Component (Redesigned) ---
+const UserDetailsModal = ({ user, onClose, onUpdateUser, onDeleteUser }) => {
+    const [name, setName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
+
+    const handleUpdate = () => onUpdateUser(user.id, { name, email });
+    const handleDelete = () => onDeleteUser(user.id);
+
+    return (
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="modal-content user-details-modal" onClick={e => e.stopPropagation()}>
+                <div className="modal-header">
+                    <h2 className="modal-title">User Profile</h2>
+                    <button onClick={onClose} className="modal-close-btn"><X /></button>
+                </div>
+                
+                <div className="modal-body">
+                    <div className="profile-summary">
+                        <img 
+                            src={`https://ui-avatars.com/api/?name=${name.replace(/\s/g, '+')}&background=F3E8FF&color=9333EA&size=96`} 
+                            alt={name} 
+                            className="profile-avatar"
+                        />
+                        <div className="profile-summary-text">
+                           <input type="text" className="profile-name-input" value={name} onChange={e => setName(e.target.value)} />
+                           <input type="email" className="profile-email-input" value={email} onChange={e => setEmail(e.target.value)} />
+                        </div>
+                    </div>
+
+                    <div className="details-section">
+                        <h4>Account Information</h4>
+                        <div className="info-grid">
+                            <div className="info-item">
+                                <span className="info-label">User ID</span>
+                                <span className="info-value">{user.id}</span>
+                            </div>
+                            <div className="info-item">
+                                <span className="info-label">Status</span>
+                                <span className={`user-status-badge status-${user.status.toLowerCase()}`}>{user.status}</span>
+                            </div>
+                            <div className="info-item">
+                                <span className="info-label">Member Since</span>
+                                <span className="info-value">{new Date(user.createdAt).toLocaleDateString('en-IN')}</span>
+                            </div>
+                            <div className="info-item">
+                                <span className="info-label">Last Login</span>
+                                <span className="info-value">{new Date(user.lastLogin).toLocaleString('en-IN')}</span>
+                            </div>
+                             <div className="info-item">
+                                <span className="info-label">Role</span>
+                                <span className="info-value">{user.role}</span>
+                            </div>
+                             <div className="info-item">
+                                <span className="info-label">Total Orders</span>
+                                <span className="info-value">{user.totalOrders}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="modal-footer">
+                    <button onClick={handleDelete} className="btn btn-danger"><Trash2 size={16} /> Delete User</button>
+                    <button onClick={handleUpdate} className="btn btn-primary"><Edit size={16} /> Save Changes</button>
+                </div>
+            </div>
+        </div>
+    );
 };
 
-
+// --- Main User Management Page ---
 export default function UserManagement() {
-  const [users, setUsers] = useState(initialUsers);
-  const [selectedUser, setSelectedUser] = useState(null);
+    const [users, setUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [statusFilter, setStatusFilter] = useState('All');
+    const token = localStorage.getItem('token');
 
-  const handleViewDetails = (user) => {
-    setSelectedUser(user);
-  };
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/auth/admin/get-all-users', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
 
-  const handleUpdateStatus = (userId, orderId, newStatus) => {
-    setUsers(prevUsers => prevUsers.map(user => {
-      if (user.id === userId) {
-        return {
-          ...user,
-          orders: user.orders.map(order => 
-            order.id === orderId ? { ...order, status: newStatus } : order
-          )
+                if (response.data && response.data.usersList) {
+                    const userList = response.data.usersList
+                        .filter(u => u.role === 'USER')
+                        // Add mock data for a richer UI until backend provides it
+                        .map(u => ({
+                            ...u,
+                            status: Math.random() > 0.3 ? 'Active' : 'Inactive',
+                            createdAt: new Date(Date.now() - Math.random() * 3e10).toISOString(),
+                            lastLogin: new Date(Date.now() - Math.random() * 1e9).toISOString(),
+                            totalOrders: Math.floor(Math.random() * 20),
+                        }));
+                    setUsers(userList);
+                }
+            } catch (err) {
+                console.error('Error fetching users:', err);
+            }
         };
-      }
-      return user;
-    }));
-    // Also update the selected user to reflect changes immediately in the modal
-    setSelectedUser(prevUser => ({
-        ...prevUser,
-        orders: prevUser.orders.map(order => 
-            order.id === orderId ? { ...order, status: newStatus } : order
-        )
-    }));
-  };
+        if (token) fetchUsers();
+    }, [token]);
 
-  const handleUpdateUser = (user) => {
-    // Placeholder for update logic
-    alert(`Update functionality for ${user.name} would be implemented here.`);
-  };
+    const filteredUsers = useMemo(() => {
+        return users.filter(user => {
+            const matchesSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                  user.email.toLowerCase().includes(searchQuery.toLowerCase());
+            const matchesStatus = statusFilter === 'All' || user.status === statusFilter;
+            return matchesSearch && matchesStatus;
+        });
+    }, [users, searchQuery, statusFilter]);
 
-  const handleDeleteUser = (userId) => {
-    // Placeholder for delete logic
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
-      setSelectedUser(null); // Close modal after deletion
-      alert(`User ${userId} has been deleted.`);
-    }
-  };
+    const stats = useMemo(() => ({
+        total: users.length,
+        active: users.filter(u => u.status === 'Active').length,
+    }), [users]);
 
-  return (
-    <div className="management-page">
-      <header className="management-header">
-        <div className="management-header-container">
-          <Link to="/AdminDashboard" className="header-logo">Kredo</Link>
+
+    const handleUpdateUser = async (userId, updatedData) => {
+        try {
+            await axios.put(`http://localhost:8080/auth/admin/update/${userId}`, updatedData, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setUsers(prev => prev.map(u => u.id === userId ? { ...u, ...updatedData } : u));
+            setSelectedUser(null);
+            alert('User updated successfully!');
+        } catch (err) {
+            console.error('Error updating user:', err);
+            alert('Failed to update user');
+        }
+    };
+
+    const handleDeleteUser = async (userId) => {
+        if (!window.confirm('Are you sure you want to delete this user?')) return;
+        try {
+            await axios.delete(`http://localhost:8080/auth/admin/delete/${userId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setUsers(prev => prev.filter(u => u.id !== userId));
+            setSelectedUser(null);
+            alert('User deleted successfully!');
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            alert('Failed to delete user');
+        }
+    };
+
+    return (
+        <div className="management-page">
+            <header className="management-header">
+                <div className="management-header-container">
+                    <Link to="/AdminDashboard" className="header-logo">Kredo</Link>
+                </div>
+            </header>
+
+            <main className="management-content">
+                <div className="content-header">
+                    <Users size={32} />
+                    <h1>User Management</h1>
+                </div>
+
+                {/* --- Stats Cards --- */}
+                <div className="stats-grid">
+                    <div className="stat-card">
+                        <div className="stat-icon-wrapper" style={{backgroundColor: 'var(--purple-100)'}}>
+                            <Users size={24} style={{color: 'var(--purple-600)'}}/>
+                        </div>
+                        <div className="stat-info">
+                            <p className="stat-label">Total Users</p>
+                            <p className="stat-value">{stats.total}</p>
+                        </div>
+                    </div>
+                    <div className="stat-card">
+                        <div className="stat-icon-wrapper" style={{backgroundColor: 'var(--pink-100)'}}>
+                             <UserCheck size={24} style={{color: 'var(--pink-600)'}}/>
+                        </div>
+                        <div className="stat-info">
+                            <p className="stat-label">Active Users</p>
+                            <p className="stat-value">{stats.active}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* --- Filter and Search Bar --- */}
+                <div className="filter-bar">
+                    <div className="search-wrapper">
+                        <Search size={20} className="search-icon"/>
+                        <input 
+                            type="text" 
+                            placeholder="Search by name or email..."
+                            className="search-input"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                    </div>
+                    <div className="status-filters">
+                        <button onClick={() => setStatusFilter('All')} className={statusFilter === 'All' ? 'active' : ''}>All</button>
+                        <button onClick={() => setStatusFilter('Active')} className={statusFilter === 'Active' ? 'active' : ''}>Active</button>
+                        <button onClick={() => setStatusFilter('Inactive')} className={statusFilter === 'Inactive' ? 'active' : ''}>Inactive</button>
+                    </div>
+                </div>
+                
+                {/* --- User Grid --- */}
+                <div className="user-grid">
+                    {filteredUsers.length > 0 ? filteredUsers.map(user => (
+                        <UserCard key={user.id} user={user} onSelectUser={setSelectedUser} />
+                    )) : (
+                        <p className="no-results-message">No users found.</p>
+                    )}
+                </div>
+            </main>
+
+            {selectedUser && (
+                <UserDetailsModal
+                    user={selectedUser}
+                    onClose={() => setSelectedUser(null)}
+                    onUpdateUser={handleUpdateUser}
+                    onDeleteUser={handleDeleteUser}
+                />
+            )}
         </div>
-      </header>
-
-      <main className="management-content">
-        <div className="content-header">
-          <Users size={32} />
-          <h1>User Management</h1>
-        </div>
-        
-        <div className="user-table-container">
-          <table className="user-table">
-            <thead>
-              <tr>
-                <th>User ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map(user => (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <button onClick={() => handleViewDetails(user)} className="btn btn-view">
-                      View Details
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </main>
-
-      {selectedUser && (
-        <UserDetailsModal 
-          user={selectedUser} 
-          onClose={() => setSelectedUser(null)}
-          onUpdateStatus={handleUpdateStatus}
-          onUpdateUser={handleUpdateUser}
-          onDeleteUser={handleDeleteUser}
-        />
-      )}
-    </div>
-  );
+    );
 }

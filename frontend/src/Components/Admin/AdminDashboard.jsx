@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { User, Shield, Users, ShoppingBag, Facebook, Twitter, Instagram } from 'lucide-react';
+import { Shield, Users, ShoppingBag, Package, Facebook, Twitter, Instagram } from 'lucide-react';
 import '../assets/css/adminDashboard.css';
 
 // --- MOCK DATA ---
 const adminData = {
-  name: 'Sushmashree PS',
-  mobile: '7019268956',
-  email: 'sushma@kredo.com',
-  role: 'Admin Management',
-  lastLogin: '19 Aug 2025, 09:00 PM',
-  accountStatus: 'Active',
+    name: 'Sushmashree PS',
+    mobile: '70192 *****',
+    email: 'sushma@kredo.com',
+    role: 'Admin Management',
+    lastLogin: '20 Aug 2025, 04:00 PM',
+    accountStatus: 'Active',
 };
 
 const categories = ["Electronics", "Womens Wear", "Mens Wear", "Kids Wear", "Groceries", "Accessories", "Makeup & Skincare", "Home Decor"];
@@ -60,61 +60,65 @@ const Footer = () => (
     </footer>
 );
 
-
 export default function AdminDashboard() {
-  return (
-    <div className="admin-dashboard-wrapper">
-      <Header />
-      <main className="admin-main-content">
-        <div className="admin-details-card">
-          <div className="admin-card-header">
-            <Shield size={32} />
-            <h2>Admin Details</h2>
-          </div>
-          <div className="admin-details-grid">
-            <div className="detail-item">
-              <span className="label">Admin Name</span>
-              <span className="value">{adminData.name}</span>
-            </div>
-            <div className="detail-item">
-              <span className="label">Contact Number</span>
-              <span className="value">{adminData.mobile}</span>
-            </div>
-            <div className="detail-item">
-              <span className="label">Email ID</span>
-              <span className="value">{adminData.email}</span>
-            </div>
-            <div className="detail-item">
-              <span className="label">Password</span>
-              <span className="value">••••••••••••</span>
-            </div>
-            <div className="detail-item">
-              <span className="label">Role</span>
-              <span className="value">{adminData.role}</span>
-            </div>
-             <div className="detail-item">
-              <span className="label">Account Status</span>
-              <span className="value status-active">{adminData.accountStatus}</span>
-            </div>
-             <div className="detail-item full-width">
-              <span className="label">Last Login</span>
-              <span className="value">{adminData.lastLogin}</span>
-            </div>
-          </div>
-        </div>
+    return (
+        <div className="admin-dashboard-wrapper">
+            <Header />
+            <main className="admin-main-content">
+                <div className="admin-details-card">
+                    <div className="admin-card-header">
+                        <Shield size={32} />
+                        <h2>Admin Details</h2>
+                    </div>
+                    <div className="admin-details-grid">
+                        <div className="detail-item">
+                            <span className="label">Admin Name</span>
+                            <span className="value">{adminData.name}</span>
+                        </div>
+                        <div className="detail-item">
+                            <span className="label">Contact Number</span>
+                            <span className="value">{adminData.mobile}</span>
+                        </div>
+                        <div className="detail-item">
+                            <span className="label">Email ID</span>
+                            <span className="value">{adminData.email}</span>
+                        </div>
+                        <div className="detail-item">
+                            <span className="label">Password</span>
+                            <span className="value">••••••••••••</span>
+                        </div>
+                        <div className="detail-item">
+                            <span className="label">Role</span>
+                            <span className="value">{adminData.role}</span>
+                        </div>
+                         <div className="detail-item">
+                            <span className="label">Account Status</span>
+                            <span className="value status-active">{adminData.accountStatus}</span>
+                        </div>
+                         <div className="detail-item full-width">
+                            <span className="label">Last Login</span>
+                            <span className="value">{adminData.lastLogin}</span>
+                        </div>
+                    </div>
+                </div>
 
-        <div className="management-actions">
-          <Link to="/admin/users" className="management-button">
-            <Users size={28} />
-            <span>User Management</span>
-          </Link>
-          <Link to="/admin/products" className="management-button">
-            <ShoppingBag size={28} />
-            <span>Product Management</span>
-          </Link>
+                <div className="management-actions">
+                    <Link to="/admin/users" className="management-button">
+                        <Users size={28} />
+                        <span>User Management</span>
+                    </Link>
+                    <Link to="/admin/products" className="management-button">
+                        <ShoppingBag size={28} />
+                        <span>Product Management</span>
+                    </Link>
+                    {/* --- COMBINED ORDER BUTTON --- */}
+                    <Link to="/OrderHistory" className="management-button">
+                        <Package size={28} />
+                        <span>Order Management</span>
+                    </Link>
+                </div>
+            </main>
+            <Footer />
         </div>
-      </main>
-      <Footer />
-    </div>
-  );
+    );
 }

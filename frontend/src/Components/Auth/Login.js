@@ -14,6 +14,25 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // ===================================================================
+    // --- NEW CODE: Hardcoded check for the admin user ---
+    // This will bypass the normal backend call for this specific user.
+    if (email === "sushma@kredo.com" && password === "sushma@kredo.com") {
+      console.log("🔑 Admin bypass successful. Navigating to Admin Dashboard.");
+
+      // Manually set the role so the PrivateRoute allows access.
+      localStorage.setItem("role", "ADMIN");
+      // You might also need to set a dummy token if your PrivateRoute checks for it.
+      localStorage.setItem("token", "dummy-admin-token");
+      
+      navigate("/AdminDashboard");
+      return; // IMPORTANT: This stops the function from calling the backend.
+    }
+    // --- END OF NEW CODE ---
+    // ===================================================================
+
+
+    // Regular login logic for all other users
     try {
       const response = await axios.post("http://localhost:8080/auth/login", {
         email,
@@ -23,12 +42,15 @@ export default function Login() {
       if (response.data.statusCode === 200) {
         console.log("✅ Login success:", response.data);
 
-        // Save token in localStorage
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("refreshToken", response.data.refreshToken);
+        localStorage.setItem("role", response.data.role);
 
-        // Navigate to dashboard
-        navigate("/dashboard");
+        if (response.data.role === "ADMIN") {
+          navigate("/AdminDashboard");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         setError("Invalid email or password.");
         alert("❌ Invalid email or password. Please try again.");

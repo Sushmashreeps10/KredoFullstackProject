@@ -33,11 +33,15 @@ public class NewSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults()) // enable CORS
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/auth/**", "/public/**", "/register").permitAll()
-                        .requestMatchers("/admin/**","/manage-users","/users/**").hasAuthority("ADMIN")
-                        .requestMatchers("/admin/delete/**").hasAuthority("ADMIN")
-                        .requestMatchers("/auth/email/**","/auth/email/reset-password/**").permitAll()
-                        .requestMatchers("/user/**").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers("/auth/**", "/public/", "/register","/api/products/**","/api/orders/**").permitAll()
+                        .requestMatchers("/api/orders/all", "/api/orders/get-by-id/**").permitAll() // public
+                        .requestMatchers("/api/orders/create", "/api/orders/update/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/products/all", "/api/products/get-by-id/**","/api/orders/get-by-email/**").permitAll() // public
+                        .requestMatchers("/api/products/create", "/api/products/update/**").hasAuthority("ADMIN")
+                        .requestMatchers("/admin/","/manage-users","/users/").hasAuthority("ADMIN")
+                        .requestMatchers("/admin/delete/").hasAuthority("ADMIN")
+                        .requestMatchers("/auth/email/","/auth/email/reset-password/","/api/products/delete/**","/api/orders/delete/**").permitAll()
+                        .requestMatchers("/user/").hasAnyAuthority("ADMIN", "USER")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
