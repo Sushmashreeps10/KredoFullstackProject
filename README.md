@@ -23,9 +23,11 @@ Added to Cart
 <img width="1910" height="1080" alt="image" src="https://github.com/user-attachments/assets/dea1630f-eaf9-4952-b3ad-9b7bf2051f65" />
 
 <img width="1254" height="822" alt="image" src="https://github.com/user-attachments/assets/d0b31b77-7d33-4b1f-aa3d-9d1aa414f253" />
-<img width="796" height="720" alt="image" src="https://github.com/user-attachments/assets/ade124f7-2ebb-4622-8911-9593624eea46" />
+<img width="1898" height="1078" alt="image" src="https://github.com/user-attachments/assets/233e30db-4b9b-40f8-8a2a-f19937e9de28" />
 
-<img width="1560" height="889" alt="image" src="https://github.com/user-attachments/assets/5b96d6f5-4d43-4b35-9c28-25aecfcd7ba6" />
+
+<img width="1918" height="1080" alt="image" src="https://github.com/user-attachments/assets/ba8ff47e-ad3a-4f8c-890c-d7d73f8ae812" />
+
 
 User Profile
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/a4076f11-c101-4d85-9e66-3467d4dcbe0f" />
