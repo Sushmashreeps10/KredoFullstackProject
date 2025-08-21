@@ -11,8 +11,6 @@ Product Display
 User Profile
 <img width="1915" height="1080" alt="image" src="https://github.com/user-attachments/assets/b664e713-fa88-4862-b389-eee00622b51e" />
 
-Admin dashboard
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/17dd09fd-e983-4215-89ad-59af477ca5c2" />
 
 User Management by admin demo
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b5833846-ec68-4c62-815c-e00b550e26c0" />
